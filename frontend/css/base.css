@@ -1,0 +1,108 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --green:        #059669;
+  --green-light:  #f0fdf4;
+  --green-border: #d1fae5;
+  --green-active: #ecfdf5;
+  --green-dark:   #065f46;
+  --green-mid:    #a7f3d0;
+  --blue:         #2563eb;
+  --blue-light:   #eff6ff;
+  --blue-border:  #bfdbfe;
+  --orange:       #ea580c;
+  --orange-light: #fff7ed;
+  --orange-border:#fed7aa;
+  --text:         #111827;
+  --text-mid:     #374151;
+  --text-muted:   #9ca3af;
+  --border:       #e5e5e5;
+  --bg:           #ffffff;
+  --bg-subtle:    #fafafa;
+  --sidebar-bg:   #f0fdf4;
+  --sidebar-w:    200px;
+  --radius:       8px;
+  --shadow:       0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+}
+
+html, body {
+  height: 100%;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-size: 14px;
+  color: var(--text);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3 { letter-spacing: -0.3px; }
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  outline: none;
+}
+
+select, input {
+  font-family: inherit;
+  outline: none;
+}
+
+.app {
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.main {
+  flex: 1;
+  overflow-y: auto;
+  padding: 24px 28px;
+  background: var(--bg);
+}
+
+.section { display: none; }
+.section.active { display: block; }
+
+.hidden { display: none !important; }
+
+.spinner {
+  width: 20px; height: 20px;
+  border: 2px solid var(--border);
+  border-top-color: var(--green);
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  margin: 0 auto;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.empty-state {
+  text-align: center;
+  padding: 80px 20px;
+  color: var(--text-muted);
+}
+.empty-state h2 { font-size: 20px; color: var(--text); margin-bottom: 8px; }
+.empty-state p  { font-size: 14px; max-width: 420px; margin: 0 auto 20px; }
+.empty-hint {
+  display: inline-block;
+  background: var(--bg-subtle);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 8px 16px;
+  font-size: 13px;
+}
+
+.section-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 4px;
+  letter-spacing: -0.3px;
+}
+.section-sub {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-bottom: 20px;
+}

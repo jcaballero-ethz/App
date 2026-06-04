@@ -1,0 +1,48 @@
+.metrics-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.metric-card {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.metric-card:hover {
+  border-color: var(--green-mid);
+  box-shadow: var(--shadow);
+}
+
+.metric-label {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-muted);
+  font-weight: 500;
+  margin-bottom: 6px;
+}
+
+.metric-value {
+  font-size: 28px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  line-height: 1;
+  margin-bottom: 4px;
+}
+
+.metric-value.green  { color: var(--green); }
+.metric-value.blue   { color: var(--blue); }
+.metric-value.orange { color: var(--orange); }
+
+.metric-sub {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.metric-card.tint-green  { background: var(--green-light); border-color: var(--green-border); }
+.metric-card.tint-blue   { background: var(--blue-light);  border-color: var(--blue-border); }
+.metric-card.tint-orange { background: var(--orange-light); border-color: var(--orange-border); }

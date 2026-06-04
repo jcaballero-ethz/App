@@ -1,0 +1,23 @@
+function renderCap() {
+  const cap = STATE.cap;
+  const el  = document.getElementById('chart-cap');
+  if (!cap?.sources?.length) {
+    el.innerHTML = '<p style="color:var(--text-muted);padding:40px;text-align:center">Capacity data not available.</p>';
+    return;
+  }
+
+  Plotly.newPlot('chart-cap', [{
+    x: cap.values,
+    y: cap.sources,
+    type: 'bar',
+    orientation: 'h',
+    marker: { color: cap.sources.map(s => GEN_COLORS[s] || '#d1d5db') },
+    hovertemplate: '<b>%{y}</b><br>%{x:.1f} GW<extra></extra>',
+  }], {
+    ...PLOTLY_BASE,
+    height: Math.max(300, cap.sources.length * 34),
+    xaxis: { ...PLOTLY_BASE.xaxis, title: 'GW', type: 'linear', tickformat: '.1f' },
+    yaxis: { ...PLOTLY_BASE.yaxis, type: 'category' },
+    margin: { t: 10, b: 40, l: 200, r: 20 },
+  }, { responsive: true, displayModeBar: false });
+}

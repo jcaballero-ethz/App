@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EnergyStress</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/static/css/base.css">
+<link rel="stylesheet" href="/static/css/sidebar.css">
+<link rel="stylesheet" href="/static/css/metrics.css">
+<link rel="stylesheet" href="/static/css/charts.css">
+<link rel="stylesheet" href="/static/css/tables.css">
+<link rel="stylesheet" href="/static/css/report.css">
+<script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+</head>
+<body>
+<div class="app">
+
+  <!-- Sidebar -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-logo">EnergyStress</div>
+
+    <div class="sidebar-label">Country</div>
+    <select id="country-select"></select>
+
+    <div class="sidebar-label">Start date</div>
+    <input type="date" id="start-date" value="2025-04-28">
+
+    <div class="sidebar-label">End date</div>
+    <input type="date" id="end-date" value="2025-04-28">
+
+    <button class="btn-fetch" id="fetch-btn" onclick="fetchAll()">Fetch data</button>
+
+    <div class="sidebar-divider"></div>
+
+    <div class="nav-group-label">Analysis</div>
+    <div class="nav-item active" data-section="stress">Stress Overview</div>
+    <div class="nav-item" data-section="gen">Generation Mix</div>
+    <div class="nav-item" data-section="map">Europe Map</div>
+    <div class="nav-item" data-section="cap">Capacity</div>
+
+    <div class="nav-group-label" style="margin-top:12px">Tools</div>
+    <div class="nav-item" data-section="compare">Compare <span class="nav-badge">NEW</span></div>
+    <div class="nav-item" data-section="report">Risk Report <span class="nav-badge">NEW</span></div>
+
+    <div class="sidebar-footer">
+      Powered by ENTSO-E<br>Transparency Platform
+    </div>
+  </aside>
+
+  <!-- Main content -->
+  <main class="main" id="main">
+
+    <!-- Empty state -->
+    <div class="empty-state" id="empty-state">
+      <h2>Select a country and date range</h2>
+      <p>Analyse stress events, generation mix, cross-border flows and installed capacity using real ENTSO-E data.</p>
+      <div class="empty-hint">Try: Spain · 2025-04-28 — the Iberian blackout</div>
+    </div>
+
+    <!-- Loading -->
+    <div class="hidden" id="loading" style="padding:80px;text-align:center">
+      <div class="spinner"></div>
+      <p style="margin-top:12px;color:var(--text-muted);font-size:13px">Fetching data from ENTSO-E...</p>
+    </div>
+
+    <!-- Error -->
+    <div class="hidden" id="error-msg" style="background:#fef2f2;border:1px solid #fecaca;color:#dc2626;padding:12px 16px;border-radius:8px;margin-bottom:16px;font-size:13px"></div>
+
+    <!-- Sections -->
+    <div id="content" class="hidden">
+
+      <!-- Metrics (always visible when data loaded) -->
+      <div class="metrics-row" id="metrics-row">
+        <div class="metric-card tint-green" id="card-price">
+          <div class="metric-label">Avg Price</div>
+          <div class="metric-value green" id="m-price">—</div>
+          <div class="metric-sub" id="m-price-sub">—</div>
+        </div>
+        <div class="metric-card tint-blue" id="card-load">
+          <div class="metric-label">Avg Load</div>
+          <div class="metric-value blue" id="m-load">—</div>
+          <div class="metric-sub" id="m-load-sub">—</div>
+        </div>
+        <div class="metric-card tint-orange">
+          <div class="metric-label">Peak Phi</div>
+          <div class="metric-value orange" id="m-phi">—</div>
+          <div class="metric-sub" id="m-phi-sub">—</div>
+        </div>
+        <div class="metric-card" id="card-min">
+          <div class="metric-label">Min Price</div>
+          <div class="metric-value green" id="m-minprice">—</div>
+          <div class="metric-sub">Negative = renewable surplus</div>
+        </div>
+      </div>
+
+      <!-- Section: Stress Overview -->
+      <section class="section active" id="section-stress">
+        <div class="charts-grid-2">
+          <div class="chart-card">
+            <div class="chart-card-title">Day-ahead price</div>
+            <div class="chart-card-sub">EUR/MWh · hourly</div>
+            <div id="chart-price" style="height:240px"></div>
+          </div>
+          <div class="chart-card">
+            <div class="chart-card-title">Phi stress indicator</div>
+            <div class="chart-card-sub">price × demand · kEUR/h · orange = above 90th percentile</div>
+            <div id="chart-phi" style="height:240px"></div>
+          </div>
+        </div>
+        <div class="table-card">
+          <div class="chart-card-title" style="margin-bottom:12px">Stress hours — top 90th percentile</div>
+          <div class="table-wrap">
+            <table>
+              <thead><tr>
+                <th>Time</th><th>Phi (kEUR/h)</th><th>Price (EUR/MWh)</th><th>Load (GW)</th><th>Status</th>
+              </tr></thead>
+              <tbody id="stress-table"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section: Generation Mix -->
+      <section class="section" id="section-gen">
+        <div class="charts-grid-1">
+          <div class="chart-card">
+            <div class="chart-card-title">Generation mix</div>
+            <div class="chart-card-sub">GW · stacked by source · dotted line = actual load</div>
+            <div id="chart-gen" style="height:380px"></div>
+          </div>
+        </div>
+        <div class="table-card">
+          <div class="chart-card-title" style="margin-bottom:12px">Average generation by source</div>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Source</th><th>Avg (GW)</th><th>Share (%)</th></tr></thead>
+              <tbody id="gen-table"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section: Europe Map -->
+      <section class="section" id="section-map">
+        <div class="chart-card">
+          <div class="chart-card-title">Hourly transmission flows and prices</div>
+          <div class="chart-card-sub">Country colour = price (EUR/MWh) · Line width = flow magnitude · Use slider to scrub hours</div>
+          <div id="map-loading" class="hidden" style="padding:40px;text-align:center;color:var(--text-muted)">
+            <div class="spinner"></div>
+            <p style="margin-top:10px;font-size:13px">Loading hourly map data...</p>
+          </div>
+          <div id="chart-map" style="height:500px"></div>
+          <div class="map-scrubber hidden" id="map-scrubber">
+            <button class="btn-play" id="map-play" onclick="togglePlay()">Play</button>
+            <input type="range" id="map-slider" min="0" value="0" oninput="scrubMap(this.value)">
+            <span class="map-time-label" id="map-time-label"></span>
+          </div>
+        </div>
+        <div class="table-card">
+          <div class="chart-card-title" style="margin-bottom:12px">Average flows — selected period</div>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Neighbor</th><th>Export</th><th>Import</th><th>Net</th></tr></thead>
+              <tbody id="flows-table"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section: Capacity -->
+      <section class="section" id="section-cap">
+        <div class="chart-card">
+          <div class="chart-card-title">Installed generation capacity</div>
+          <div class="chart-card-sub">GW · by technology</div>
+          <div id="chart-cap" style="height:420px"></div>
+        </div>
+      </section>
+
+      <!-- Section: Compare -->
+      <section class="section" id="section-compare">
+        <div id="compare-content"></div>
+      </section>
+
+      <!-- Section: Risk Report -->
+      <section class="section" id="section-report">
+        <div class="report-container">
+          <div id="report-empty" style="color:var(--text-muted);font-size:13px;padding:20px 0">
+            Fetch data first to generate a risk report.
+          </div>
+          <div id="report-ready" class="hidden">
+            <div class="report-actions">
+              <button class="btn-download" onclick="downloadReport()">Download PDF</button>
+            </div>
+            <div id="report-preview"></div>
+          </div>
+        </div>
+      </section>
+
+    </div><!-- /content -->
+  </main>
+</div>
+
+<script src="/static/js/api.js"></script>
+<script src="/static/js/charts/stress.js"></script>
+<script src="/static/js/charts/generation.js"></script>
+<script src="/static/js/charts/map.js"></script>
+<script src="/static/js/charts/capacity.js"></script>
+<script src="/static/js/compare.js"></script>
+<script src="/static/js/report.js"></script>
+<script src="/static/js/app.js"></script>
+</body>
+</html>
