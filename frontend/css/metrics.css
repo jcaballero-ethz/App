@@ -1,7 +1,7 @@
 .metrics-row {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 12px;
+  gap: 14px;
   margin-bottom: 24px;
 }
 
@@ -9,29 +9,43 @@
   background: white;
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  padding: 16px;
-  transition: border-color 0.15s, box-shadow 0.15s;
+  padding: 20px 18px 16px;
+  box-shadow: var(--shadow-sm);
+  transition: border-color 0.2s, box-shadow 0.2s, transform 0.15s;
+  position: relative;
+  overflow: hidden;
+}
+.metric-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: var(--border);
+  transition: background 0.2s;
 }
 .metric-card:hover {
-  border-color: var(--green-mid);
-  box-shadow: var(--shadow);
+  border-color: var(--green-border);
+  box-shadow: var(--shadow-glow);
+  transform: translateY(-1px);
 }
+.metric-card:hover::before { background: var(--green); }
 
 .metric-label {
   font-size: 10px;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.8px;
   color: var(--text-muted);
-  font-weight: 500;
-  margin-bottom: 6px;
+  font-weight: 600;
+  margin-bottom: 8px;
 }
 
 .metric-value {
-  font-size: 28px;
-  font-weight: 800;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 32px;
+  font-weight: 700;
   letter-spacing: -0.5px;
   line-height: 1;
-  margin-bottom: 4px;
+  margin-bottom: 6px;
 }
 
 .metric-value.green  { color: var(--green); }
@@ -41,8 +55,14 @@
 .metric-sub {
   font-size: 11px;
   color: var(--text-muted);
+  line-height: 1.4;
 }
 
-.metric-card.tint-green  { background: var(--green-light); border-color: var(--green-border); }
-.metric-card.tint-blue   { background: var(--blue-light);  border-color: var(--blue-border); }
-.metric-card.tint-orange { background: var(--orange-light); border-color: var(--orange-border); }
+/* Tinted variants — subtle top accent instead of full bg tint */
+.metric-card.tint-green::before  { background: var(--green); }
+.metric-card.tint-blue::before   { background: var(--blue); }
+.metric-card.tint-orange::before { background: var(--orange); }
+
+.metric-card.tint-green  { border-color: #d1fae5; }
+.metric-card.tint-blue   { border-color: var(--blue-border); }
+.metric-card.tint-orange { border-color: var(--orange-border); }
