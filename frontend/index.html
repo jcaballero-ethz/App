@@ -46,6 +46,60 @@
 
     <!-- Empty state -->
     <div class="empty-state" id="empty-state">
+      <svg class="empty-state-svg" viewBox="0 0 200 160" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <!-- Transmission lines -->
+        <g stroke="#0F172A" stroke-width="0.7" opacity="0.2">
+          <line x1="28" y1="128" x2="52" y2="118"/>
+          <line x1="52" y1="118" x2="78" y2="98"/>
+          <line x1="78" y1="98" x2="62" y2="58"/>
+          <line x1="78" y1="98" x2="88" y2="72"/>
+          <line x1="78" y1="98" x2="100" y2="90"/>
+          <line x1="78" y1="98" x2="108" y2="118"/>
+          <line x1="88" y1="72" x2="95" y2="62"/>
+          <line x1="88" y1="72" x2="108" y2="72"/>
+          <line x1="95" y1="62" x2="108" y2="72"/>
+          <line x1="108" y1="72" x2="108" y2="45"/>
+          <line x1="108" y1="72" x2="100" y2="90"/>
+          <line x1="108" y1="72" x2="122" y2="85"/>
+          <line x1="108" y1="72" x2="122" y2="70"/>
+          <line x1="108" y1="72" x2="135" y2="60"/>
+          <line x1="108" y1="45" x2="102" y2="28"/>
+          <line x1="108" y1="45" x2="118" y2="30"/>
+          <line x1="102" y1="28" x2="118" y2="30"/>
+          <line x1="100" y1="90" x2="108" y2="118"/>
+          <line x1="122" y1="85" x2="108" y2="118"/>
+          <line x1="122" y1="85" x2="122" y2="70"/>
+          <line x1="122" y1="85" x2="135" y2="88"/>
+          <line x1="122" y1="70" x2="135" y2="60"/>
+          <line x1="135" y1="88" x2="130" y2="100"/>
+          <line x1="135" y1="88" x2="152" y2="85"/>
+          <line x1="130" y1="100" x2="108" y2="118"/>
+        </g>
+        <!-- Grid nodes -->
+        <g fill="#FAF8F5" stroke="#0F172A" stroke-width="1.25">
+          <circle cx="28" cy="128" r="3"/>
+          <circle cx="52" cy="118" r="3"/>
+          <circle cx="62" cy="58" r="3"/>
+          <circle cx="88" cy="72" r="3"/>
+          <circle cx="95" cy="62" r="3"/>
+          <circle cx="108" cy="72" r="3.5"/>
+          <circle cx="108" cy="45" r="3"/>
+          <circle cx="102" cy="28" r="3"/>
+          <circle cx="118" cy="30" r="3"/>
+          <circle cx="100" cy="90" r="3"/>
+          <circle cx="122" cy="85" r="3"/>
+          <circle cx="108" cy="118" r="3"/>
+          <circle cx="122" cy="70" r="3"/>
+          <circle cx="135" cy="60" r="3"/>
+          <circle cx="135" cy="88" r="3"/>
+          <circle cx="130" cy="100" r="3"/>
+          <circle cx="152" cy="85" r="3"/>
+        </g>
+        <!-- Central hub — FR (most connected node) -->
+        <circle class="node-pulse" cx="78" cy="98" r="9" fill="none" stroke="#C9184A" stroke-width="1"/>
+        <circle cx="78" cy="98" r="5" fill="#C9184A" opacity="0.9"/>
+        <circle cx="78" cy="98" r="2" fill="#FAF8F5"/>
+      </svg>
       <h2>Select a country and date range</h2>
       <p>Analyse stress events, generation mix, cross-border flows and installed capacity using real ENTSO-E data.</p>
       <div class="empty-hint">Try: Spain · 2025-04-28 — the Iberian blackout</div>

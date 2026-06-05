@@ -99,8 +99,14 @@ body { animation: pageFadeIn 0.3s ease both; }
 /* Empty state */
 .empty-state {
   text-align: center;
-  padding: 100px 20px;
+  padding: 80px 20px;
   color: var(--text-muted);
+}
+.empty-state-svg {
+  width: 180px;
+  height: auto;
+  margin-bottom: 28px;
+  animation: fadeUp 0.6s ease 0.05s both;
 }
 .empty-state h2 {
   font-family: Georgia, serif;
@@ -108,8 +114,15 @@ body { animation: pageFadeIn 0.3s ease both; }
   font-weight: 700;
   color: var(--text);
   margin-bottom: 10px;
+  text-wrap: balance;
 }
-.empty-state p { font-size: 14px; max-width: 420px; margin: 0 auto 24px; line-height: 1.6; }
+.empty-state p {
+  font-size: 14px;
+  max-width: 400px;
+  margin: 0 auto 24px;
+  line-height: 1.6;
+  text-wrap: pretty;
+}
 .empty-hint {
   display: inline-block;
   background: white;
@@ -118,4 +131,25 @@ body { animation: pageFadeIn 0.3s ease both; }
   padding: 10px 18px;
   font-size: 13px;
   box-shadow: var(--shadow-sm);
+  transition-property: border-color, box-shadow;
+  transition-duration: 150ms;
+  transition-timing-function: ease-out;
+}
+.empty-hint:hover {
+  border-color: var(--accent-light);
+  box-shadow: var(--shadow-md);
+}
+
+/* SVG grid node pulse */
+@keyframes svgNodePulse {
+  0%, 100% { transform: scale(1); opacity: 0.5; }
+  60%       { transform: scale(2.6); opacity: 0; }
+}
+.node-pulse {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: svgNodePulse 3s ease-out infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .node-pulse { animation: none; }
 }
