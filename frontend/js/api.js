@@ -1,6 +1,11 @@
 const API = {
   async _get(url) {
     const r = await fetch(url);
+    if (!r.ok) {
+      let detail = `HTTP ${r.status}`;
+      try { const d = await r.json(); if (d.detail) detail = d.detail; } catch {}
+      throw new Error(detail);
+    }
     const d = await r.json();
     if (d.detail) throw new Error(d.detail);
     return d;
