@@ -52,3 +52,10 @@
 .metric-card.tint-green  { border-left: 3px solid var(--surplus); }
 .metric-card.tint-blue   { border-left: 3px solid var(--blue); }
 .metric-card.tint-orange { border-left: 3px solid var(--orange); }
+
+@media (max-width: 768px) {
+  .metrics-row { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 375px) {
+  .metrics-row { grid-template-columns: 1fr; }
+}

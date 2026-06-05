@@ -48,6 +48,13 @@ select, input { font-family: inherit; outline: none; }
   background: var(--bg);
 }
 
+@media (max-width: 768px) {
+  .main { padding: 16px; }
+}
+@media (max-width: 375px) {
+  .main { padding: 12px; }
+}
+
 .section { display: none; }
 .section.active { display: block; }
 .hidden { display: none !important; }
