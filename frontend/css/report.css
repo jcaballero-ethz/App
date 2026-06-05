@@ -9,7 +9,7 @@
 }
 
 .btn-download {
-  background: var(--green);
+  background: var(--accent);
   color: white;
   border-radius: 6px;
   padding: 8px 18px;
@@ -19,7 +19,7 @@
   align-items: center;
   gap: 6px;
 }
-.btn-download:hover { background: #047857; }
+.btn-download:hover { background: #a31139; }
 
 #report-preview {
   background: white;
@@ -28,18 +28,19 @@
   padding: 40px 48px;
   font-size: 13px;
   line-height: 1.6;
-  box-shadow: var(--shadow);
+  box-shadow: var(--shadow-sm);
 }
 
 .report-header {
-  border-bottom: 2px solid var(--green);
+  border-bottom: 2px solid var(--accent);
   padding-bottom: 16px;
   margin-bottom: 24px;
 }
 
 .report-header h1 {
+  font-family: Georgia, serif;
   font-size: 20px;
-  font-weight: 800;
+  font-weight: 700;
   color: var(--text);
   letter-spacing: -0.4px;
   margin-bottom: 4px;
@@ -57,10 +58,10 @@
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.6px;
-  color: var(--green);
+  color: var(--accent);
   margin-bottom: 10px;
   padding-bottom: 4px;
-  border-bottom: 1px solid var(--green-border);
+  border-bottom: 1px solid var(--accent-light);
 }
 
 .severity-badge {
@@ -72,7 +73,7 @@
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
-.severity-LOW      { background: var(--green-light); color: var(--green); }
+.severity-LOW      { background: #f0fdf4; color: var(--surplus); }
 .severity-MEDIUM   { background: #fef9c3; color: #854d0e; }
 .severity-HIGH     { background: var(--orange-light); color: var(--orange); }
 .severity-CRITICAL { background: #fef2f2; color: #dc2626; }
@@ -85,14 +86,15 @@
 }
 
 .stat-item {
-  background: var(--bg-subtle);
+  background: var(--bg);
   border: 1px solid var(--border);
   border-radius: 6px;
   padding: 10px 12px;
 }
 .stat-item .stat-val {
+  font-family: Georgia, serif;
   font-size: 20px;
-  font-weight: 800;
+  font-weight: 700;
   letter-spacing: -0.4px;
   color: var(--text);
 }

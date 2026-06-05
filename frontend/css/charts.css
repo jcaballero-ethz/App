@@ -8,22 +8,21 @@
 .charts-grid-1 { margin-bottom: 20px; }
 
 .chart-card {
-  background: white;
+  background: var(--card-bg);
   border: 1px solid var(--border);
   border-radius: var(--radius);
   padding: 20px 20px 14px;
   box-shadow: var(--shadow-sm);
-  transition: box-shadow 0.2s;
+  transition: box-shadow 0.2s ease;
 }
 .chart-card:hover { box-shadow: var(--shadow-md); }
 
 .chart-card-title {
-  font-family: 'Barlow Condensed', sans-serif;
+  font-family: Georgia, serif;
   font-size: 15px;
-  font-weight: 600;
+  font-weight: 700;
   color: var(--text);
   margin-bottom: 2px;
-  letter-spacing: 0.1px;
 }
 
 .chart-card-sub {
@@ -43,21 +42,20 @@
 }
 
 .btn-play {
-  background: var(--green);
+  background: var(--accent);
   color: white;
   border-radius: var(--radius-sm);
   padding: 6px 14px;
   font-size: 12px;
   font-weight: 700;
   flex-shrink: 0;
-  transition: background 0.15s, box-shadow 0.15s;
-  box-shadow: 0 2px 6px rgba(16,185,129,0.3);
+  transition: background 0.15s;
 }
-.btn-play:hover { background: #059669; box-shadow: 0 3px 10px rgba(16,185,129,0.4); }
+.btn-play:hover { background: #a31139; }
 
 .map-scrubber input[type="range"] {
   flex: 1;
-  accent-color: var(--green);
+  accent-color: var(--accent);
   height: 4px;
 }
 
@@ -67,7 +65,4 @@
   min-width: 170px;
   text-align: right;
   font-variant-numeric: tabular-nums;
-  font-family: 'Barlow Condensed', sans-serif;
-  font-size: 12px;
-  letter-spacing: 0.2px;
 }

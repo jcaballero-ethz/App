@@ -1,5 +1,5 @@
 .table-card {
-  background: white;
+  background: var(--card-bg);
   border: 1px solid var(--border);
   border-radius: var(--radius);
   padding: 20px;
@@ -45,7 +45,7 @@ tbody tr:hover td { background: #f8fafc; }
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.4px;
-  font-family: 'DM Sans', sans-serif;
+  font-family: system-ui, sans-serif;
 }
 .badge-stress {
   background: var(--orange-light);
@@ -53,7 +53,7 @@ tbody tr:hover td { background: #f8fafc; }
   border: 1px solid var(--orange-border);
 }
 .badge-normal {
-  background: var(--green-light);
-  color: #059669;
-  border: 1px solid #a7f3d0;
+  background: #f0fdf4;
+  color: var(--surplus);
+  border: 1px solid #bbf7d0;
 }

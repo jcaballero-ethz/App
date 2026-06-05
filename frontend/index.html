@@ -4,10 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>EnergyStress</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600;700;800&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/static/css/base.css">
+<link rel="stylesheet" href="/static/css/layout.css">
 <link rel="stylesheet" href="/static/css/sidebar.css">
 <link rel="stylesheet" href="/static/css/metrics.css">
 <link rel="stylesheet" href="/static/css/charts.css">
@@ -19,37 +17,29 @@
 <body>
 <div class="app">
 
-  <!-- Sidebar -->
-  <aside class="sidebar" id="sidebar">
-    <div class="sidebar-logo"><span></span>EnergyStress</div>
+  <!-- Header -->
+  <header class="app-header">
+    <div class="header-logo">EnergyStress</div>
+    <div class="header-controls">
+      <select id="country-select"></select>
+      <input type="date" id="start-date" value="2025-04-28">
+      <input type="date" id="end-date" value="2025-04-28">
+      <button class="btn-fetch" id="fetch-btn" onclick="fetchAll()">
+        <span class="btn-label">Fetch data</span>
+        <span class="btn-spinner"></span>
+      </button>
+    </div>
+  </header>
 
-    <div class="sidebar-label">Country</div>
-    <select id="country-select"></select>
-
-    <div class="sidebar-label">Start date</div>
-    <input type="date" id="start-date" value="2025-04-28">
-
-    <div class="sidebar-label">End date</div>
-    <input type="date" id="end-date" value="2025-04-28">
-
-    <button class="btn-fetch" id="fetch-btn" onclick="fetchAll()">Fetch data</button>
-
-    <div class="sidebar-divider"></div>
-
-    <div class="nav-group-label">Analysis</div>
+  <!-- Navigation tabs -->
+  <div class="app-tabs">
     <div class="nav-item active" data-section="stress">Stress Overview</div>
     <div class="nav-item" data-section="gen">Generation Mix</div>
     <div class="nav-item" data-section="map">Europe Map</div>
     <div class="nav-item" data-section="cap">Capacity</div>
-
-    <div class="nav-group-label" style="margin-top:12px">Tools</div>
-    <div class="nav-item" data-section="compare">Compare <span class="nav-badge">NEW</span></div>
-    <div class="nav-item" data-section="report">Risk Report <span class="nav-badge">NEW</span></div>
-
-    <div class="sidebar-footer">
-      Powered by ENTSO-E<br>Transparency Platform
-    </div>
-  </aside>
+    <div class="nav-item" data-section="compare">Compare</div>
+    <div class="nav-item" data-section="report">Risk Report</div>
+  </div>
 
   <!-- Main content -->
   <main class="main" id="main">

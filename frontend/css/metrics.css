@@ -6,51 +6,41 @@
 }
 
 .metric-card {
-  background: white;
+  background: var(--card-bg);
   border: 1px solid var(--border);
   border-radius: var(--radius);
   padding: 20px 18px 16px;
   box-shadow: var(--shadow-sm);
-  transition: border-color 0.2s, box-shadow 0.2s, transform 0.15s;
-  position: relative;
-  overflow: hidden;
-}
-.metric-card::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 3px;
-  background: var(--border);
-  transition: background 0.2s;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  cursor: default;
 }
 .metric-card:hover {
-  border-color: var(--green-border);
-  box-shadow: var(--shadow-glow);
-  transform: translateY(-1px);
+  border-color: var(--accent-light);
+  box-shadow: var(--shadow-md);
 }
-.metric-card:hover::before { background: var(--green); }
 
 .metric-label {
   font-size: 10px;
   text-transform: uppercase;
-  letter-spacing: 0.8px;
-  color: var(--text-muted);
-  font-weight: 600;
+  letter-spacing: 1px;
+  color: var(--accent);
+  font-weight: 700;
   margin-bottom: 8px;
 }
 
 .metric-value {
-  font-family: 'Barlow Condensed', sans-serif;
+  font-family: Georgia, serif;
   font-size: 32px;
   font-weight: 700;
   letter-spacing: -0.5px;
   line-height: 1;
   margin-bottom: 6px;
+  color: var(--text);
 }
 
-.metric-value.green  { color: var(--green); }
-.metric-value.blue   { color: var(--blue); }
+.metric-value.green  { color: var(--surplus); }
 .metric-value.orange { color: var(--orange); }
+.metric-value.blue   { color: var(--blue); }
 
 .metric-sub {
   font-size: 11px;
@@ -58,11 +48,6 @@
   line-height: 1.4;
 }
 
-/* Tinted variants — subtle top accent instead of full bg tint */
-.metric-card.tint-green::before  { background: var(--green); }
-.metric-card.tint-blue::before   { background: var(--blue); }
-.metric-card.tint-orange::before { background: var(--orange); }
-
-.metric-card.tint-green  { border-color: #d1fae5; }
-.metric-card.tint-blue   { border-color: var(--blue-border); }
-.metric-card.tint-orange { border-color: var(--orange-border); }
+.metric-card.tint-green  { border-left: 3px solid var(--surplus); }
+.metric-card.tint-blue   { border-left: 3px solid var(--blue); }
+.metric-card.tint-orange { border-left: 3px solid var(--orange); }
