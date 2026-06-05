@@ -51,8 +51,11 @@ document.addEventListener('DOMContentLoaded', async () => {
 });
 
 function showSection(name) {
-  document.querySelectorAll('.nav-item').forEach(i =>
-    i.classList.toggle('active', i.dataset.section === name));
+  document.querySelectorAll('.nav-item').forEach(i => {
+    const active = i.dataset.section === name;
+    i.classList.toggle('active', active);
+    i.setAttribute('aria-selected', active);
+  });
   document.querySelectorAll('.section').forEach(s =>
     s.classList.toggle('active', s.id === `section-${name}`));
 

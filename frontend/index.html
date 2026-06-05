@@ -33,12 +33,12 @@
 
   <!-- Navigation tabs -->
   <div class="app-tabs">
-    <div class="nav-item active" data-section="stress">Stress Overview</div>
-    <div class="nav-item" data-section="gen">Generation Mix</div>
-    <div class="nav-item" data-section="map">Europe Map</div>
-    <div class="nav-item" data-section="cap">Capacity</div>
-    <div class="nav-item" data-section="compare">Compare</div>
-    <div class="nav-item" data-section="report">Risk Report</div>
+    <div class="nav-item active" data-section="stress" tabindex="0" role="tab" aria-selected="true">Stress Overview</div>
+    <div class="nav-item" data-section="gen" tabindex="0" role="tab" aria-selected="false">Generation Mix</div>
+    <div class="nav-item" data-section="map" tabindex="0" role="tab" aria-selected="false">Europe Map</div>
+    <div class="nav-item" data-section="cap" tabindex="0" role="tab" aria-selected="false">Capacity</div>
+    <div class="nav-item" data-section="compare" tabindex="0" role="tab" aria-selected="false">Compare</div>
+    <div class="nav-item" data-section="report" tabindex="0" role="tab" aria-selected="false">Risk Report</div>
   </div>
 
   <!-- Main content -->
@@ -58,7 +58,7 @@
     </div>
 
     <!-- Error -->
-    <div class="hidden" id="error-msg" style="background:#fef2f2;border:1px solid #fecaca;color:#dc2626;padding:12px 16px;border-radius:8px;margin-bottom:16px;font-size:13px"></div>
+    <div class="hidden" id="error-msg" role="alert" aria-live="polite" style="background:#fef2f2;border:1px solid #fecaca;color:#dc2626;padding:12px 16px;border-radius:8px;margin-bottom:16px;font-size:13px"></div>
 
     <!-- Sections -->
     <div id="content" class="hidden">
