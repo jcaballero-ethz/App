@@ -48,6 +48,16 @@ document.addEventListener('DOMContentLoaded', async () => {
   document.querySelectorAll('.nav-item').forEach(item => {
     item.addEventListener('click', () => showSection(item.dataset.section));
   });
+
+  document.querySelectorAll('.nav-item').forEach((item, idx, items) => {
+    item.addEventListener('keydown', (e) => {
+      let target = null;
+      if (e.key === 'ArrowRight') target = items[(idx + 1) % items.length];
+      if (e.key === 'ArrowLeft')  target = items[(idx - 1 + items.length) % items.length];
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); showSection(item.dataset.section); }
+      if (target) { target.focus(); showSection(target.dataset.section); }
+    });
+  });
 });
 
 function showSection(name) {
