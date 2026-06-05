@@ -105,10 +105,19 @@
       <div class="empty-hint">Try: Spain · 2025-04-28 — the Iberian blackout</div>
     </div>
 
-    <!-- Loading -->
-    <div class="hidden" id="loading" style="padding:80px;text-align:center">
-      <div class="spinner"></div>
-      <p style="margin-top:12px;color:var(--text-muted);font-size:13px">Fetching data from ENTSO-E...</p>
+    <!-- Skeleton loading -->
+    <div class="hidden" id="loading">
+      <div class="skeleton-metrics">
+        <div class="skeleton skeleton-metric"></div>
+        <div class="skeleton skeleton-metric"></div>
+        <div class="skeleton skeleton-metric"></div>
+        <div class="skeleton skeleton-metric"></div>
+      </div>
+      <div class="skeleton-charts-row">
+        <div class="skeleton skeleton-chart-half"></div>
+        <div class="skeleton skeleton-chart-half"></div>
+      </div>
+      <div class="skeleton skeleton-chart"></div>
     </div>
 
     <!-- Error -->

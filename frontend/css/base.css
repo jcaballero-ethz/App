@@ -92,6 +92,40 @@ body { animation: pageFadeIn 0.3s ease both; }
   *, body { animation: none !important; transition: none !important; }
 }
 
+/* Skeleton screen */
+@keyframes shimmer {
+  from { background-position: -600px 0; }
+  to   { background-position:  600px 0; }
+}
+.skeleton {
+  background: linear-gradient(90deg, #E2E8F0 25%, #F1F5F9 50%, #E2E8F0 75%);
+  background-size: 600px 100%;
+  animation: shimmer 1.4s ease-in-out infinite;
+  border-radius: var(--radius-sm);
+}
+.skeleton-metrics {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 24px;
+}
+.skeleton-metric   { height: 88px; border-radius: var(--radius); }
+.skeleton-chart    { height: 280px; border-radius: var(--radius); margin-bottom: 16px; }
+.skeleton-chart-half { height: 280px; border-radius: var(--radius); }
+.skeleton-charts-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+@media (max-width: 768px) {
+  .skeleton-metrics { grid-template-columns: repeat(2, 1fr); }
+  .skeleton-charts-row { grid-template-columns: 1fr; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .skeleton { animation: none; }
+}
+
 /* Spinner */
 .spinner {
   width: 22px; height: 22px;
