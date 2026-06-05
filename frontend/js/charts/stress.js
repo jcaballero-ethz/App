@@ -16,11 +16,12 @@ function renderStressCharts(d) {
     }],
   }, { responsive: true, displayModeBar: false });
 
-  const colors = d.phi.map(v => v >= d.threshold ? '#ea580c' : '#bfdbfe');
+  const colors   = d.phi.map(v => v >= d.threshold ? '#ea580c' : '#bfdbfe');
+  const patterns = d.phi.map(v => v >= d.threshold ? '/' : '');
   Plotly.newPlot('chart-phi', [{
     x: d.times, y: d.phi,
     type: 'bar',
-    marker: { color: colors },
+    marker: { color: colors, pattern: { shape: patterns } },
     name: 'Phi',
     hovertemplate: '%{y:.0f} kEUR/h<extra></extra>',
   }], {

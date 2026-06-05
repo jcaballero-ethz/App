@@ -6,12 +6,16 @@ function renderCap() {
     return;
   }
 
+  const PATTERNS = ['', '/', '\\', 'x', '-', '|', '+', '.'];
   Plotly.newPlot('chart-cap', [{
     x: cap.values,
     y: cap.sources,
     type: 'bar',
     orientation: 'h',
-    marker: { color: cap.sources.map(s => GEN_COLORS[s] || '#d1d5db') },
+    marker: {
+      color: cap.sources.map(s => GEN_COLORS[s] || '#d1d5db'),
+      pattern: { shape: cap.sources.map((_, i) => PATTERNS[i % PATTERNS.length]) },
+    },
     hovertemplate: '<b>%{y}</b><br>%{x:.1f} GW<extra></extra>',
   }], {
     ...PLOTLY_BASE,

@@ -17,16 +17,18 @@ const GEN_COLORS = {
   'Waste':                           '#93c5fd',
 };
 
+const DASHES = ['solid', 'dot', 'dash', 'longdash', 'dashdot', 'longdashdot'];
+
 function renderGeneration(g, stress) {
   const traces = [];
 
-  Object.entries(g.series).forEach(([name, vals]) => {
+  Object.entries(g.series).forEach(([name, vals], i) => {
     traces.push({
       x: g.times, y: vals,
       name,
       type: 'scatter',
       stackgroup: 'gen',
-      line: { width: 0 },
+      line: { width: 1, dash: DASHES[i % DASHES.length] },
       fillcolor: GEN_COLORS[name] || '#d1d5db',
       hovertemplate: `<b>${name}</b><br>%{y:.2f} GW<extra></extra>`,
     });
