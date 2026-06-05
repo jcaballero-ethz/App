@@ -10,11 +10,44 @@ import pandas as pd
 import numpy as np
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
+from pydantic import BaseModel
+
 from data.fetch import (
     get_prices, get_load, get_generation,
     get_crossborder_flows, get_installed_capacity,
     COUNTRY_CODES, NEIGHBORS
 )
+
+
+class StressResponse(BaseModel):
+    times: list[str]
+    prices: list[float]
+    load: list[float]
+    phi: list[float]
+    threshold: float
+    avg_price: float
+    avg_load: float
+    max_phi: float
+    min_price: float
+
+
+class GenerationResponse(BaseModel):
+    times: list[str]
+    series: dict[str, list[float]]
+
+
+class FlowsResponse(BaseModel):
+    flows: dict[str, dict]
+
+
+class CapacityResponse(BaseModel):
+    sources: list[str]
+    values: list[float]
+
+
+class CountriesResponse(BaseModel):
+    countries: dict[str, str]
+
 
 app = FastAPI()
 
@@ -41,10 +74,10 @@ ENTSOE_TO_ISO3 = {
     'HU': 'HUN', 'RO': 'ROU',
 }
 
-def _ts(date_str, tz='Europe/Madrid'):
+def _ts(date_str: str, tz: str = 'Europe/Madrid') -> pd.Timestamp:
     return pd.Timestamp(date_str, tz=tz)
 
-def _fetch_prices_safe(country, s, e, tz):
+def _fetch_prices_safe(country: str, s: pd.Timestamp, e: pd.Timestamp, tz: str) -> tuple:
     try:
         p = get_prices(country, s, e)
         p.index = p.index.tz_convert(tz)
@@ -52,7 +85,7 @@ def _fetch_prices_safe(country, s, e, tz):
     except Exception:
         return country, None
 
-def _fetch_flow_safe(a, b, s, e, tz):
+def _fetch_flow_safe(a: str, b: str, s: pd.Timestamp, e: pd.Timestamp, tz: str) -> tuple:
     try:
         f = get_crossborder_flows(a, b, s, e)
         if f is not None:
@@ -62,7 +95,7 @@ def _fetch_flow_safe(a, b, s, e, tz):
     except Exception:
         return (a, b), None
 
-@app.get('/api/stress')
+@app.get('/api/stress', response_model=StressResponse)
 def stress(country: str, start: str, end: str):
     try:
         tz     = 'Europe/Madrid'
@@ -91,7 +124,7 @@ def stress(country: str, start: str, end: str):
         logger.exception("Endpoint error")
         raise HTTPException(status_code=400, detail="Could not fetch data. Check country code and date range.")
 
-@app.get('/api/generation')
+@app.get('/api/generation', response_model=GenerationResponse)
 def generation(country: str, start: str, end: str):
     try:
         tz  = 'Europe/Madrid'
@@ -188,7 +221,7 @@ def map_hourly(country: str, start: str, end: str):
         logger.exception("Endpoint error")
         raise HTTPException(status_code=400, detail="Could not fetch data. Check country code and date range.")
 
-@app.get('/api/flows')
+@app.get('/api/flows', response_model=FlowsResponse)
 def flows(country: str, start: str, end: str):
     try:
         tz = 'Europe/Madrid'
@@ -207,7 +240,7 @@ def flows(country: str, start: str, end: str):
         logger.exception("Endpoint error")
         raise HTTPException(status_code=400, detail="Could not fetch data. Check country code and date range.")
 
-@app.get('/api/capacity')
+@app.get('/api/capacity', response_model=CapacityResponse)
 def capacity(country: str, start: str, end: str):
     try:
         tz  = 'Europe/Madrid'
@@ -226,7 +259,7 @@ def capacity(country: str, start: str, end: str):
         logger.exception("Endpoint error")
         raise HTTPException(status_code=400, detail="Could not fetch data. Check country code and date range.")
 
-@app.get('/api/countries')
+@app.get('/api/countries', response_model=CountriesResponse)
 def countries():
     return {'countries': COUNTRY_CODES}
 
