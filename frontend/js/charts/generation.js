@@ -65,4 +65,36 @@ function renderGeneration(g, stress) {
     tr.innerHTML = `<td style="display:flex;align-items:center">${dot}${name}</td><td>${avg.toFixed(3)}</td><td>${(avg / total * 100).toFixed(1)}%</td>`;
     tbody.appendChild(tr);
   });
+
+  const lastIdx = g.times.length - 1;
+  const donutLabels = [], donutValues = [];
+  Object.entries(g.series).forEach(([name, vals]) => {
+    const v = vals[lastIdx] || 0;
+    if (v > 0.01) { donutLabels.push(name); donutValues.push(v); }
+  });
+
+  Plotly.newPlot('chart-gen-donut', [{
+    labels: donutLabels, values: donutValues,
+    type: 'pie', hole: 0.55,
+    marker: { colors: donutLabels.map(l => GEN_COLORS[l] || '#64748b') },
+    textinfo: 'percent', textfont: { size: 10, color: '#e2e8f0' },
+    hovertemplate: '<b>%{label}</b><br>%{value:.2f} GW<extra></extra>',
+  }], {
+    ...PLOTLY_BASE,
+    margin: { t: 16, r: 10, b: 10, l: 10 },
+    title: { text: 'Current Mix Snapshot', font: { size: 11, color: '#64748b' }, x: 0.5, xanchor: 'center' },
+    showlegend: false,
+  }, { responsive: true, displayModeBar: false });
+
+  const renewKeys = ['Wind Onshore','Wind Offshore','Solar','Hydro Run-of-river and poundage',
+    'Hydro Water Reservoir','Other renewable','Geothermal','Biomass'];
+  const CO2 = { 'Fossil Gas':490,'Fossil Hard coal':820,'Fossil Brown coal/Lignite':1050,'Fossil Oil':650,'Nuclear':12,'Biomass':230 };
+  const donutTotal = donutValues.reduce((a,b)=>a+b,0) || 1;
+  const renew = donutLabels.reduce((s,l,i) => renewKeys.some(r=>l.includes(r)) ? s+donutValues[i] : s, 0);
+  const co2   = donutLabels.reduce((s,l,i) => s+(CO2[l]||0)*donutValues[i], 0) / donutTotal;
+
+  const pEl = document.getElementById('gen-renewable-pct');
+  const cEl = document.getElementById('gen-co2-est');
+  if (pEl) pEl.textContent = `${(renew/donutTotal*100).toFixed(1)}%`;
+  if (cEl) cEl.textContent = `CO₂ intensity: ~${co2.toFixed(0)} gCO₂/kWh`;
 }
