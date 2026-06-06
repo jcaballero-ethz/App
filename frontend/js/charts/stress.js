@@ -64,4 +64,28 @@ function renderStressCharts(d) {
       <td><span class="badge badge-stress">STRESS</span></td>`;
     tbody.appendChild(tr);
   });
+
+  // Hour × weekday heatmap
+  const DAYS = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+  const buckets = Array.from({length: 24}, () => Array(7).fill(null).map(() => []));
+  d.times.forEach((t, i) => {
+    const dt = new Date(t);
+    buckets[dt.getHours()][(dt.getDay() + 6) % 7].push(d.phi[i]);
+  });
+  const z = buckets.map(row => row.map(vals => vals.length ? vals.reduce((a,b)=>a+b,0)/vals.length : null));
+
+  Plotly.newPlot('chart-stress-heatmap', [{
+    z, x: DAYS,
+    y: Array.from({length: 24}, (_, i) => `${String(i).padStart(2,'0')}:00`),
+    type: 'heatmap',
+    colorscale: [[0,'#1a1d27'],[0.5,'#6366f1'],[1,'#f87171']],
+    hovertemplate: '%{y} %{x}: %{z:.0f} kEUR/h<extra></extra>',
+    showscale: true,
+  }], {
+    ...PLOTLY_BASE,
+    margin: { t: 16, r: 80, b: 40, l: 56 },
+    xaxis: { ...PLOTLY_BASE.xaxis },
+    yaxis: { ...PLOTLY_BASE.yaxis, title: 'Hour', autorange: 'reversed' },
+    title: { text: 'Average φ by Hour of Day × Weekday', font: { size: 11, color: '#64748b' }, x: 0.02 },
+  }, { responsive: true, displayModeBar: false });
 }
