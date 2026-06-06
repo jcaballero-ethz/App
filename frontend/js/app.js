@@ -39,12 +39,13 @@ function animateValue(el, end, suffix, duration) {
 }
 
 document.addEventListener('DOMContentLoaded', async () => {
+  const FLAGS = {ES:'🇪🇸',FR:'🇫🇷',DE_LU:'🇩🇪',IT:'🇮🇹',PT:'🇵🇹',NL:'🇳🇱',BE:'🇧🇪',AT:'🇦🇹',CH:'🇨🇭',PL:'🇵🇱',DK:'🇩🇰',NO:'🇳🇴',SE:'🇸🇪',FI:'🇫🇮',GR:'🇬🇷',CZ:'🇨🇿',HU:'🇭🇺',RO:'🇷🇴'};
   const { countries } = await API.countries().catch(() => ({ countries: {} }));
   const sel = document.getElementById('country-select');
   Object.entries(countries).forEach(([name, code]) => {
     const o = document.createElement('option');
     o.value = code;
-    o.textContent = name;
+    o.textContent = FLAGS[code] ? `${FLAGS[code]} ${name}` : name;
     if (code === 'ES') o.selected = true;
     sel.appendChild(o);
   });
@@ -120,6 +121,14 @@ async function fetchAll() {
     if (gen) renderGeneration(gen, stress);
     renderFlowsTable(flows);
 
+    ['overview-hero','overview-kpis','overview-charts','metrics-row'].forEach((id, i) => {
+      const el = document.getElementById(id);
+      if (!el) return;
+      el.classList.remove('enter-1','enter-2','enter-3','enter-4');
+      void el.offsetWidth;
+      el.classList.add(`enter-${i + 1}`);
+    });
+
     document.getElementById('loading').classList.add('hidden');
     document.getElementById('content').classList.remove('hidden');
     showSection('overview');
@@ -139,17 +148,18 @@ async function fetchAll() {
 function renderMetrics(d) {
   animateValue(document.getElementById('m-price'), parseFloat(d.avg_price), ' EUR/MWh', 600);
   document.getElementById('m-price-sub').textContent = `Range ${Math.min(...d.prices).toFixed(1)}–${Math.max(...d.prices).toFixed(1)}`;
+  document.getElementById('m-price').className = 'metric-value val-amber';
 
   animateValue(document.getElementById('m-load'), parseFloat(d.avg_load), ' GW', 600);
-  document.getElementById('m-load-sub').textContent  = `Peak ${Math.max(...d.load).toFixed(1)} GW`;
+  document.getElementById('m-load-sub').textContent = `Peak ${Math.max(...d.load).toFixed(1)} GW`;
+  document.getElementById('m-load').className = 'metric-value val-blue';
 
   animateValue(document.getElementById('m-phi'), parseFloat(d.max_phi), ' kEUR/h', 600);
-  document.getElementById('m-phi-sub').textContent   = `${d.phi.filter(v => v >= d.threshold).length} stress hours`;
+  document.getElementById('m-phi-sub').textContent = `${d.phi.filter(v => v >= d.threshold).length} stress hours`;
+  document.getElementById('m-phi').className = `metric-value ${d.max_phi >= d.threshold ? 'val-red' : ''}`;
 
   const minEl = document.getElementById('m-minprice');
   animateValue(minEl, parseFloat(d.min_price), ' EUR/MWh', 600);
-  minEl.className = `metric-value ${d.min_price < 0 ? 'green' : 'orange'}`;
-
-  const card = document.getElementById('card-min');
-  card.className = `metric-card ${d.min_price < 0 ? 'tint-green' : 'tint-orange'}`;
+  minEl.className = `metric-value ${d.min_price < 0 ? 'val-green' : 'val-amber'}`;
+  document.getElementById('card-min').className = `metric-card ${d.min_price < 0 ? 'tint-green' : ''}`;
 }

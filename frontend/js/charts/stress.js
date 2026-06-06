@@ -3,8 +3,8 @@ function renderStressCharts(d) {
   Plotly.react('chart-price', [{
     x: d.times, y: d.prices,
     type: 'scatter', fill: 'tozeroy',
-    line: { color: '#059669', width: 1.5 },
-    fillcolor: 'rgba(5,150,105,0.08)',
+    line: { color: '#f59e0b', width: 1.5 },
+    fillcolor: 'rgba(245,158,11,0.06)',
     name: 'Price',
     hovertemplate: '%{y:.2f} EUR/MWh<extra></extra>',
   }], {
@@ -17,7 +17,7 @@ function renderStressCharts(d) {
     }],
   }, { responsive: true, displayModeBar: false });
 
-  const colors   = d.phi.map(v => v >= d.threshold ? '#ea580c' : '#bfdbfe');
+  const colors   = d.phi.map(v => v >= d.threshold ? '#f87171' : '#6366f1');
   const patterns = d.phi.map(v => v >= d.threshold ? '/' : '');
   Plotly.react('chart-phi', [{
     x: d.times, y: d.phi,
