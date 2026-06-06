@@ -6,22 +6,25 @@ function renderCap() {
     return;
   }
 
-  const PATTERNS = ['', '/', '\\', 'x', '-', '|', '+', '.'];
   Plotly.newPlot('chart-cap', [{
     x: cap.values,
     y: cap.sources,
     type: 'bar',
     orientation: 'h',
     marker: {
-      color: cap.sources.map(s => GEN_COLORS[s] || '#d1d5db'),
-      pattern: { shape: cap.sources.map((_, i) => PATTERNS[i % PATTERNS.length]) },
+      color: cap.sources.map(s => GEN_COLORS[s] || '#64748b'),
+      opacity: 0.9,
+      pattern: { shape: cap.sources.map((_, i) => ['','/','\\ ','x','-','|','+','.'][i % 8]) },
     },
+    text: cap.values.map(v => `${v.toFixed(1)} GW`),
+    textposition: 'outside',
+    textfont: { color: '#94a3b8', size: 10 },
     hovertemplate: '<b>%{y}</b><br>%{x:.1f} GW<extra></extra>',
   }], {
     ...PLOTLY_BASE,
-    height: Math.max(300, cap.sources.length * 34),
-    xaxis: { ...PLOTLY_BASE.xaxis, title: 'GW', type: 'linear', tickformat: '.1f' },
-    yaxis: { ...PLOTLY_BASE.yaxis, type: 'category' },
-    margin: { t: 10, b: 40, l: 200, r: 20 },
+    height: Math.max(320, cap.sources.length * 38),
+    xaxis: { ...PLOTLY_BASE.xaxis, title: 'GW', tickformat: '.1f' },
+    yaxis: { ...PLOTLY_BASE.yaxis, type: 'category', automargin: true },
+    margin: { t: 16, b: 48, l: 180, r: 80 },
   }, { responsive: true, displayModeBar: false });
 }
