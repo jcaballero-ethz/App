@@ -124,3 +124,17 @@ function downloadReport() {
   };
   html2pdf().set(opt).from(el).save();
 }
+
+function exportCSV() {
+  if (!STATE.stress) return;
+  const s = STATE.stress;
+  const rows = [['timestamp','price_eur_mwh','load_gw','phi_keur_h','above_threshold']];
+  s.times.forEach((t, i) =>
+    rows.push([t, s.prices[i], s.load[i], s.phi[i], s.phi[i] >= s.threshold ? 1 : 0]));
+  const blob = new Blob([rows.map(r => r.join(',')).join('\n')], { type: 'text/csv' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `energy_${escHtml(STATE.country)}_${STATE.start}_${STATE.end}.csv`;
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
