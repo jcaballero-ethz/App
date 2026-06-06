@@ -1,0 +1,1 @@
+function renderOverview(stress, gen) {}

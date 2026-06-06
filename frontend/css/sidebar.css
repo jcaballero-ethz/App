@@ -82,6 +82,10 @@
   .sidebar-item.active {
     border-left: none;
     border-bottom-color: var(--accent);
-    background: transparent;
+    background: var(--accent-light);
   }
+}
+
+@media (max-width: 375px) {
+  .sidebar-item { min-height: 40px; padding: 12px 12px; }
 }

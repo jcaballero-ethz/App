@@ -85,6 +85,10 @@ async function loadComparePanel(i) {
     }, { responsive: true, displayModeBar: false });
 
   } catch(e) {
-    result.innerHTML = `<p style="color:var(--orange);font-size:13px">Error: ${e.message}</p>`;
+    const p = document.createElement('p');
+    p.style.cssText = 'color:var(--orange);font-size:13px';
+    p.textContent = `Error: ${e.message}`;
+    result.innerHTML = '';
+    result.appendChild(p);
   }
 }

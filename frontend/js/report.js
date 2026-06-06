@@ -1,3 +1,5 @@
+function escHtml(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
 function renderReport() {
   const d = STATE.stress;
   if (!d) return;
@@ -36,7 +38,7 @@ function renderReport() {
     <div class="report-header">
       <h1>EnergyStress Risk Report</h1>
       <div class="report-meta">
-        ${STATE.country} · ${STATE.start} – ${STATE.end} · Generated ${new Date().toLocaleDateString('en-GB')}
+        ${escHtml(STATE.country)} · ${STATE.start} – ${STATE.end} · Generated ${new Date().toLocaleDateString('en-GB')}
       </div>
     </div>
 
@@ -115,7 +117,7 @@ function downloadReport() {
   const el = document.getElementById('report-preview');
   const opt = {
     margin:       [10, 10, 10, 10],
-    filename:     `energystress-report-${STATE.country}-${STATE.start}.pdf`,
+    filename:     `energystress-report-${escHtml(STATE.country)}-${STATE.start}.pdf`,
     image:        { type: 'jpeg', quality: 0.98 },
     html2canvas:  { scale: 2, useCORS: true },
     jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' },

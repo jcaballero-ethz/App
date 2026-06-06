@@ -68,7 +68,7 @@ function showSection(name) {
   document.querySelectorAll('.sidebar-item').forEach(i => {
     const active = i.dataset.section === name;
     i.classList.toggle('active', active);
-    i.setAttribute('aria-selected', active);
+    i.setAttribute('aria-current', active ? 'page' : 'false');
   });
   document.querySelectorAll('.section').forEach(s =>
     s.classList.toggle('active', s.id === `section-${name}`));
