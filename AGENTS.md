@@ -146,59 +146,62 @@ cd /Users/javiercaballero/Proyecto_Javi/energy-stress-app
 
 ---
 
-## Cómo usar AYUDAS
+## Reglas de workflow — qué hacer en cada situación
 
-Todos los skills y agentes están en `~/AYUDAS/`.
+**NO explorar ~/AYUDAS/skills/ libremente. Usar EXACTAMENTE el archivo indicado para cada situación.**
 
-### Skills — `~/AYUDAS/skills/`
+### Antes de escribir código — leer este skill primero
 
-Leer el archivo markdown del skill correspondiente y seguir sus instrucciones exactamente.
+| Situación | Leer este archivo exacto ANTES de empezar |
+|-----------|------------------------------------------|
+| Cualquier tarea nueva no trivial | `~/AYUDAS/skills/superpowers/brainstorming/brainstorming.md` |
+| CSS, HTML, diseño visual | `~/AYUDAS/skills/ui-ux-pro-max/ui-ux-pro-max/ui-ux-pro-max.md` |
+| Cambios en `server.py` | `~/AYUDAS/skills/ecc/fastapi-patterns/fastapi-patterns.md` |
+| Cambios en archivos `.py` | `~/AYUDAS/skills/ecc/python-patterns/python-patterns.md` |
+| Escribir tests | `~/AYUDAS/skills/ecc/python-testing/python-testing.md` |
+| Bug / algo roto | `~/AYUDAS/skills/superpowers/systematic-debugging/systematic-debugging.md` |
+| Animaciones / transiciones | `~/AYUDAS/skills/ecc/motion-foundations/motion-foundations.md` |
 
-| Tarea | Skill |
-|-------|-------|
-| Construir algo nuevo | `~/AYUDAS/skills/superpowers/brainstorming/` → luego `writing-plans/` |
-| Ejecutar un plan | `~/AYUDAS/skills/superpowers/subagent-driven-development/` |
-| Debuggear un bug | `~/AYUDAS/skills/superpowers/systematic-debugging/` |
-| Trabajo de UI/CSS/HTML | `~/AYUDAS/skills/ui-ux-pro-max/ui-ux-pro-max/` **PRIMERO** |
-| Patrones FastAPI | `~/AYUDAS/skills/ecc/fastapi-patterns/` |
-| Patrones Python | `~/AYUDAS/skills/ecc/python-patterns/` |
-| Tests Python | `~/AYUDAS/skills/ecc/python-testing/` |
-| TDD | `~/AYUDAS/skills/superpowers/test-driven-development/` |
-| Animaciones / motion | `~/AYUDAS/skills/ecc/motion-foundations/` |
-| Verificar antes de terminar | `~/AYUDAS/skills/superpowers/verification-before-completion/` |
+### Para ejecutar trabajo planificado
 
-### Agentes — `~/AYUDAS/agentes/README.md`
+| Situación | Archivo exacto |
+|-----------|---------------|
+| Escribir plan de implementación | `~/AYUDAS/skills/superpowers/writing-plans/writing-plans.md` |
+| Ejecutar plan con subagentes | `~/AYUDAS/skills/superpowers/subagent-driven-development/subagent-driven-development.md` |
+| TDD paso a paso | `~/AYUDAS/skills/superpowers/test-driven-development/test-driven-development.md` |
+| Verificar antes de terminar | `~/AYUDAS/skills/superpowers/verification-before-completion/verification-before-completion.md` |
 
-Lista completa de agentes disponibles con descripción y sintaxis de invocación.
+### Agentes a invocar después de cada cambio
 
-Agentes clave para este proyecto:
+Referencia completa en `~/AYUDAS/agentes/README.md`.
 
-| Agente | Cuándo usarlo |
-|--------|--------------|
-| `ecc:code-reviewer` | Tras CUALQUIER cambio de código |
-| `ecc:fastapi-reviewer` | Tras cambios en server.py |
-| `ecc:python-reviewer` | Tras cambios en .py |
-| `ecc:typescript-reviewer` | Tras cambios en .js |
-| `ecc:security-reviewer` | Tras nuevos endpoints |
-| `dev-tools:qa-responsive-style` | Tras cambios CSS |
-| `dev-tools:qa-ux-friction` | Tras cambios UI/UX |
-| `dev-tools:qa-frontend-backend-alignment` | Tras cambios API + JS juntos |
-| `debugging:investigator` | Cuando algo está roto |
+| Tras cambiar este archivo | Invocar este agente |
+|--------------------------|---------------------|
+| Cualquier archivo de código | `ecc:code-reviewer` — SIEMPRE, sin excepción |
+| `server.py` | `ecc:fastapi-reviewer` + `ecc:python-reviewer` |
+| Cualquier `.py` | `ecc:python-reviewer` |
+| Cualquier `.js` | `ecc:typescript-reviewer` |
+| CSS o HTML | `dev-tools:qa-responsive-style` + `dev-tools:qa-ux-friction` |
+| API + JS juntos | `dev-tools:qa-frontend-backend-alignment` |
+| Nuevos endpoints | `ecc:security-reviewer` |
+| Algo está roto | `debugging:investigator` |
 
----
+### Secuencia obligatoria para features nuevas
 
-## Reglas de workflow OBLIGATORIAS
+```
+1. Leer brainstorming.md → explorar y clarificar
+2. Leer writing-plans.md → escribir plan detallado
+3. Leer subagent-driven-development.md → ejecutar plan con subagentes
+4. Invocar ecc:code-reviewer al terminar cada tarea
+5. Commit + push cuando todo pase los tests
+```
 
-1. Antes de cualquier CSS/HTML → leer `~/AYUDAS/skills/ui-ux-pro-max/ui-ux-pro-max/`
-2. Antes de FastAPI/server.py → leer `~/AYUDAS/skills/ecc/fastapi-patterns/`
-3. Antes de tests Python → leer `~/AYUDAS/skills/ecc/python-testing/`
-4. Tras cualquier cambio de código → invocar `ecc:code-reviewer`
-5. Tras .py → invocar `ecc:python-reviewer`
-6. Tras .js → invocar `ecc:typescript-reviewer`
-7. Tras server.py → invocar `ecc:fastapi-reviewer`
-8. Features nuevas → brainstorm → writing-plans → subagent-driven-development
-9. TDD — test fallido primero, luego implementación
-10. Commit tras cada cambio significativo, push al terminar
+### Reglas de código
+
+- TDD: test fallido primero, luego implementación mínima, luego refactor
+- Commit tras cada cambio significativo
+- Push al terminar la sesión
+- No inventar patrones: seguir los existentes en el codebase
 
 ---
 
