@@ -10,12 +10,12 @@ function renderCompare() {
         <div style="background:var(--bg-subtle);border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin-bottom:16px">
           <div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:12px">Panel ${i}</div>
           <label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:4px">Country</label>
-          <select id="cmp-country-${i}" style="width:100%;border:1px solid var(--border);border-radius:6px;padding:6px 8px;font-size:12px;margin-bottom:8px;font-family:inherit"></select>
+          <select id="cmp-country-${i}" style="width:100%;background:var(--card-bg);color:var(--text);border:1px solid var(--border);border-radius:6px;padding:6px 8px;font-size:12px;margin-bottom:8px;font-family:inherit"></select>
           <label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:4px">Start</label>
-          <input type="date" id="cmp-start-${i}" value="2025-04-28" style="width:100%;border:1px solid var(--border);border-radius:6px;padding:6px 8px;font-size:12px;margin-bottom:8px;font-family:inherit">
+          <input type="date" id="cmp-start-${i}" value="2025-04-28" style="width:100%;background:var(--card-bg);color:var(--text);border:1px solid var(--border);border-radius:6px;padding:6px 8px;font-size:12px;margin-bottom:8px;font-family:inherit">
           <label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:4px">End</label>
-          <input type="date" id="cmp-end-${i}" value="2025-04-28" style="width:100%;border:1px solid var(--border);border-radius:6px;padding:6px 8px;font-size:12px;margin-bottom:8px;font-family:inherit">
-          <button onclick="loadComparePanel(${i})" style="width:100%;background:var(--green);color:white;border-radius:6px;padding:7px;font-size:12px;font-weight:600;cursor:pointer;border:none;font-family:inherit">Load</button>
+          <input type="date" id="cmp-end-${i}" value="2025-04-28" style="width:100%;background:var(--card-bg);color:var(--text);border:1px solid var(--border);border-radius:6px;padding:6px 8px;font-size:12px;margin-bottom:8px;font-family:inherit">
+          <button onclick="loadComparePanel(${i})" style="width:100%;background:var(--accent);color:white;border-radius:6px;padding:7px;font-size:12px;font-weight:600;cursor:pointer;border:none;font-family:inherit">Load</button>
         </div>
         <div id="cmp-result-${i}"><p style="color:var(--text-muted);font-size:13px;padding:20px 0">Click Load to fetch data.</p></div>
       </div>`).join('')}
@@ -72,11 +72,11 @@ async function loadComparePanel(i) {
       </div>
       <div style="height:160px" id="cmp-chart-${i}"></div>`;
 
-    Plotly.newPlot(`cmp-chart-${i}`, [{
+    Plotly.react(`cmp-chart-${i}`, [{
       x: d.times, y: d.prices,
       type: 'scatter', fill: 'tozeroy',
-      line: { color: '#059669', width: 1 },
-      fillcolor: 'rgba(5,150,105,0.07)',
+      line: { color: '#6366f1', width: 1 },
+      fillcolor: 'rgba(99,102,241,0.07)',
       name: 'Price',
     }], {
       ...PLOTLY_BASE,
