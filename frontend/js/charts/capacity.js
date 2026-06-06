@@ -6,7 +6,7 @@ function renderCap() {
     return;
   }
 
-  Plotly.newPlot('chart-cap', [{
+  Plotly.react('chart-cap', [{
     x: cap.values,
     y: cap.sources,
     type: 'bar',

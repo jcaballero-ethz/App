@@ -34,14 +34,7 @@ function renderOverview(stress, gen) {
     </div>
   `;
 
-  document.getElementById('overview-charts').innerHTML = `
-    <div class="chart-card" style="display:grid;grid-template-columns:1fr 1fr;gap:16px;padding:16px;">
-      <div id="chart-overview-price" style="height:160px;"></div>
-      <div id="chart-overview-phi" style="height:160px;"></div>
-    </div>
-  `;
-
-  Plotly.newPlot('chart-overview-price', [{
+  Plotly.react('chart-overview-price', [{
     x: stress.times, y: stress.prices,
     type: 'scatter', mode: 'lines',
     line: { color: '#60a5fa', width: 1.5 },
@@ -56,7 +49,7 @@ function renderOverview(stress, gen) {
   }, { responsive: true, displayModeBar: false });
 
   const phiColors = stress.phi.map(v => v >= stress.threshold ? '#f87171' : '#6366f1');
-  Plotly.newPlot('chart-overview-phi', [{
+  Plotly.react('chart-overview-phi', [{
     x: stress.times, y: stress.phi,
     type: 'bar',
     marker: { color: phiColors },

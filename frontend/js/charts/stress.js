@@ -1,5 +1,6 @@
 function renderStressCharts(d) {
-  Plotly.newPlot('chart-price', [{
+  if (!d?.times?.length) return;
+  Plotly.react('chart-price', [{
     x: d.times, y: d.prices,
     type: 'scatter', fill: 'tozeroy',
     line: { color: '#059669', width: 1.5 },
@@ -18,7 +19,7 @@ function renderStressCharts(d) {
 
   const colors   = d.phi.map(v => v >= d.threshold ? '#ea580c' : '#bfdbfe');
   const patterns = d.phi.map(v => v >= d.threshold ? '/' : '');
-  Plotly.newPlot('chart-phi', [{
+  Plotly.react('chart-phi', [{
     x: d.times, y: d.phi,
     type: 'bar',
     marker: { color: colors, pattern: { shape: patterns } },
@@ -74,7 +75,7 @@ function renderStressCharts(d) {
   });
   const z = buckets.map(row => row.map(vals => vals.length ? vals.reduce((a,b)=>a+b,0)/vals.length : null));
 
-  Plotly.newPlot('chart-stress-heatmap', [{
+  Plotly.react('chart-stress-heatmap', [{
     z, x: DAYS,
     y: Array.from({length: 24}, (_, i) => `${String(i).padStart(2,'0')}:00`),
     type: 'heatmap',
