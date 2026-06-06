@@ -49,6 +49,31 @@ class CountriesResponse(BaseModel):
     countries: dict[str, str]
 
 
+class HistoricalResponse(BaseModel):
+    times: list[str]
+    prices: list[float]
+    load: list[float]
+    avg_price: float
+    min_price: float
+    max_price: float
+
+
+class MarketResponse(BaseModel):
+    times: list[str]
+    prices: list[float]
+    avg_price: float
+    price_std: float
+    min_price: float
+    max_price: float
+
+
+class AlertsResponse(BaseModel):
+    stress_hours: list[str]
+    phi_values: list[float]
+    threshold: float
+    alert_count: int
+
+
 app = FastAPI()
 
 # All transmission corridors in the network (both directions handled in logic)
@@ -262,6 +287,81 @@ def capacity(country: str, start: str, end: str):
 @app.get('/api/countries', response_model=CountriesResponse)
 def countries():
     return {'countries': COUNTRY_CODES}
+
+
+@app.get('/api/historical', response_model=HistoricalResponse)
+def historical(country: str, start: str, end: str) -> dict:
+    try:
+        tz     = 'Europe/Madrid'
+        s      = _ts(start, tz)
+        e      = _ts(end, tz) + pd.Timedelta(days=1)
+        prices = get_prices(country, s, e)
+        load   = get_load(country, s, e)
+        load_h = load.resample('h').mean().iloc[:, 0]
+        prices.index = prices.index.tz_convert(tz)
+        load_h.index = load_h.index.tz_convert(tz)
+        common = prices.index.intersection(load_h.index)
+        p = prices[common]
+        l = load_h[common] / 1000
+        return {
+            'times':     [str(t) for t in common],
+            'prices':    p.round(2).tolist(),
+            'load':      l.round(2).tolist(),
+            'avg_price': round(float(p.mean()), 2),
+            'min_price': round(float(p.min()), 2),
+            'max_price': round(float(p.max()), 2),
+        }
+    except Exception:
+        logger.exception("Endpoint error")
+        raise HTTPException(status_code=400, detail="Could not fetch data. Check country code and date range.")
+
+
+@app.get('/api/market', response_model=MarketResponse)
+def market(country: str, start: str, end: str) -> dict:
+    try:
+        tz     = 'Europe/Madrid'
+        s      = _ts(start, tz)
+        e      = _ts(end, tz) + pd.Timedelta(days=1)
+        prices = get_prices(country, s, e)
+        prices.index = prices.index.tz_convert(tz)
+        return {
+            'times':     [str(t) for t in prices.index],
+            'prices':    prices.round(2).tolist(),
+            'avg_price': round(float(prices.mean()), 2),
+            'price_std': round(float(prices.std()), 2),
+            'min_price': round(float(prices.min()), 2),
+            'max_price': round(float(prices.max()), 2),
+        }
+    except Exception:
+        logger.exception("Endpoint error")
+        raise HTTPException(status_code=400, detail="Could not fetch data. Check country code and date range.")
+
+
+@app.get('/api/alerts', response_model=AlertsResponse)
+def alerts(country: str, start: str, end: str) -> dict:
+    try:
+        tz     = 'Europe/Madrid'
+        s      = _ts(start, tz)
+        e      = _ts(end, tz) + pd.Timedelta(days=1)
+        prices = get_prices(country, s, e)
+        load   = get_load(country, s, e)
+        load_h = load.resample('h').mean().iloc[:, 0]
+        prices.index = prices.index.tz_convert(tz)
+        load_h.index = load_h.index.tz_convert(tz)
+        common = prices.index.intersection(load_h.index)
+        phi    = load_h[common] * prices[common] / 1000
+        thr    = float(phi.quantile(0.90))
+        mask   = phi >= thr
+        return {
+            'stress_hours': [str(t) for t in phi[mask].index],
+            'phi_values':   phi[mask].round(1).tolist(),
+            'threshold':    round(thr, 1),
+            'alert_count':  int(mask.sum()),
+        }
+    except Exception:
+        logger.exception("Endpoint error")
+        raise HTTPException(status_code=400, detail="Could not fetch data. Check country code and date range.")
+
 
 app.mount('/static', StaticFiles(directory=os.path.join(os.path.dirname(__file__), 'frontend')), name='static')
 

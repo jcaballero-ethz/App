@@ -33,3 +33,28 @@ def test_root_returns_html():
     r = client.get('/')
     assert r.status_code == 200
     assert 'text/html' in r.headers['content-type']
+
+
+def test_historical_missing_params_returns_422():
+    r = client.get('/api/historical')
+    assert r.status_code == 422
+
+def test_market_missing_params_returns_422():
+    r = client.get('/api/market')
+    assert r.status_code == 422
+
+def test_alerts_missing_params_returns_422():
+    r = client.get('/api/alerts')
+    assert r.status_code == 422
+
+def test_historical_invalid_country_returns_400():
+    r = client.get('/api/historical?country=XX&start=2025-04-28&end=2025-04-28')
+    assert r.status_code == 400
+
+def test_market_invalid_country_returns_400():
+    r = client.get('/api/market?country=XX&start=2025-04-28&end=2025-04-28')
+    assert r.status_code == 400
+
+def test_alerts_invalid_country_returns_400():
+    r = client.get('/api/alerts?country=XX&start=2025-04-28&end=2025-04-28')
+    assert r.status_code == 400
