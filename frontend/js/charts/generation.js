@@ -44,11 +44,12 @@ function renderGeneration(g, stress) {
 
   Plotly.react('chart-gen', traces, {
     ...PLOTLY_BASE,
+    showlegend: true,
     yaxis: { ...PLOTLY_BASE.yaxis, title: 'GW' },
     legend: {
       orientation: 'h',
       y: -0.2,
-      font: { size: 10 },
+      font: { size: 10, color: '#94a3b8' },
     },
   }, { responsive: true, displayModeBar: false });
 
