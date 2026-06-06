@@ -28,4 +28,13 @@ const API = {
 
   countries: () =>
     API._get('/api/countries'),
+
+  historical: (country, start, end) =>
+    API._get(`/api/historical?country=${country}&start=${start}&end=${end}`),
+
+  market: (country, start, end) =>
+    API._get(`/api/market?country=${country}&start=${start}&end=${end}`),
+
+  alerts: (country, start, end) =>
+    API._get(`/api/alerts?country=${country}&start=${start}&end=${end}`),
 };
