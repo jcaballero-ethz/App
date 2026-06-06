@@ -28,7 +28,7 @@
       <input type="date" id="start-date" value="2025-04-28">
       <input type="date" id="end-date" value="2025-04-28">
       <button class="btn-fetch" id="fetch-btn" onclick="fetchAll()">
-        <span class="btn-label">Fetch data</span>
+        <span class="btn-label">Analyse</span>
         <span class="btn-spinner"></span>
       </button>
     </div>
@@ -292,9 +292,10 @@
       </section>
 
       <section class="section" id="section-overview">
-        <div id="overview-kpis" class="metrics-row"></div>
+        <div id="overview-hero" class="enter-1"></div>
+        <div id="overview-kpis" class="metrics-row enter-2"></div>
         <div id="overview-charts">
-          <div class="chart-card" style="display:grid;grid-template-columns:1fr 1fr;gap:16px;padding:16px;">
+          <div class="chart-card enter-3" style="display:grid;grid-template-columns:1fr 1fr;gap:16px;padding:16px;">
             <div id="chart-overview-price" style="height:160px;"></div>
             <div id="chart-overview-phi" style="height:160px;"></div>
           </div>
