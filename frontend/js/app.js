@@ -1,21 +1,25 @@
 const STATE = {
-  country: 'ES',
-  start:   '2025-04-28',
-  end:     '2025-04-28',
-  stress:  null,
-  gen:     null,
-  cap:     null,
-  flows:   null,
+  country: null, start: null, end: null,
+  stress: null, gen: null, cap: null, flows: null,
+  market: null, historical: null, alerts: null,
 };
 
 const PLOTLY_BASE = {
-  paper_bgcolor: '#ffffff',
-  plot_bgcolor:  '#ffffff',
-  font: { family: 'system-ui, sans-serif', color: '#334155', size: 11 },
-  margin: { t: 8, b: 36, l: 48, r: 12 },
-  xaxis: { gridcolor: '#F1F5F9', zeroline: false, color: '#94A3B8' },
-  yaxis: { gridcolor: '#F1F5F9', zeroline: false, color: '#94A3B8' },
-  hovermode: 'x unified',
+  paper_bgcolor: '#1a1d27',
+  plot_bgcolor:  '#1a1d27',
+  font: { family: 'system-ui, -apple-system, sans-serif', size: 11, color: '#94a3b8' },
+  margin: { t: 20, r: 16, b: 40, l: 48 },
+  xaxis: {
+    gridcolor: '#2a2d3a', gridwidth: 1,
+    linecolor: '#2a2d3a', tickcolor: '#2a2d3a',
+    color: '#64748b', zeroline: false,
+  },
+  yaxis: {
+    gridcolor: '#2a2d3a', gridwidth: 1,
+    linecolor: '#2a2d3a', tickcolor: '#2a2d3a',
+    color: '#64748b', zeroline: false,
+  },
+  showlegend: false,
 };
 
 function animateValue(el, end, suffix, duration) {
@@ -45,15 +49,15 @@ document.addEventListener('DOMContentLoaded', async () => {
     sel.appendChild(o);
   });
 
-  document.querySelectorAll('.nav-item').forEach(item => {
+  document.querySelectorAll('.sidebar-item').forEach(item => {
     item.addEventListener('click', () => showSection(item.dataset.section));
   });
 
-  document.querySelectorAll('.nav-item').forEach((item, idx, items) => {
+  document.querySelectorAll('.sidebar-item').forEach((item, idx, items) => {
     item.addEventListener('keydown', (e) => {
       let target = null;
-      if (e.key === 'ArrowRight') target = items[(idx + 1) % items.length];
-      if (e.key === 'ArrowLeft')  target = items[(idx - 1 + items.length) % items.length];
+      if (e.key === 'ArrowDown') target = items[(idx + 1) % items.length];
+      if (e.key === 'ArrowUp')   target = items[(idx - 1 + items.length) % items.length];
       if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); showSection(item.dataset.section); }
       if (target) { target.focus(); showSection(target.dataset.section); }
     });
@@ -61,7 +65,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 });
 
 function showSection(name) {
-  document.querySelectorAll('.nav-item').forEach(i => {
+  document.querySelectorAll('.sidebar-item').forEach(i => {
     const active = i.dataset.section === name;
     i.classList.toggle('active', active);
     i.setAttribute('aria-selected', active);
@@ -69,10 +73,14 @@ function showSection(name) {
   document.querySelectorAll('.section').forEach(s =>
     s.classList.toggle('active', s.id === `section-${name}`));
 
-  if (name === 'map')     renderMap();
-  if (name === 'cap')     { renderCap(); setTimeout(() => Plotly.Plots.resize('chart-cap'), 50); }
-  if (name === 'compare') renderCompare();
-  if (name === 'report')  renderReport();
+  if (name === 'overview')   renderOverview(STATE.stress, STATE.gen);
+  if (name === 'map')        renderMap();
+  if (name === 'cap')        { renderCap(); setTimeout(() => Plotly.Plots.resize('chart-cap'), 50); }
+  if (name === 'compare')    renderCompare();
+  if (name === 'report')     renderReport();
+  if (name === 'market')     renderMarket(STATE.market);
+  if (name === 'historical') renderHistorical(STATE.historical);
+  if (name === 'alerts')     renderAlerts(STATE.alerts);
 }
 
 async function fetchAll() {
@@ -94,17 +102,18 @@ async function fetchAll() {
   window._mapData = null;
 
   try {
-    const [stress, gen, cap, flows] = await Promise.all([
+    const [stress, gen, cap, flows, market, historical, alerts] = await Promise.all([
       API.stress(country, start, end),
       API.generation(country, start, end).catch(() => null),
       API.capacity(country, start, end).catch(() => null),
       API.flows(country, start, end).catch(() => null),
+      API.market(country, start, end).catch(() => null),
+      API.historical(country, start, end).catch(() => null),
+      API.alerts(country, start, end).catch(() => null),
     ]);
 
-    STATE.stress = stress;
-    STATE.gen    = gen;
-    STATE.cap    = cap;
-    STATE.flows  = flows;
+    STATE.stress = stress; STATE.gen = gen; STATE.cap = cap; STATE.flows = flows;
+    STATE.market = market; STATE.historical = historical; STATE.alerts = alerts;
 
     renderMetrics(stress);
     renderStressCharts(stress);
@@ -113,7 +122,7 @@ async function fetchAll() {
 
     document.getElementById('loading').classList.add('hidden');
     document.getElementById('content').classList.remove('hidden');
-    showSection('stress');
+    showSection('overview');
 
   } catch(e) {
     document.getElementById('loading').classList.add('hidden');
