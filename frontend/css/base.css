@@ -25,11 +25,13 @@
   --radius-sm:    6px;
   --green:        #34d399;
   --bg-subtle:    #14171f;
+  --font-data:    'Fira Code', 'Courier New', monospace;
+  --font-ui:      'Inter', system-ui, sans-serif;
 }
 
 html, body {
   height: 100%;
-  font-family: system-ui, -apple-system, sans-serif;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
   font-size: 14px;
   color: var(--text);
   background: var(--bg);
