@@ -23,6 +23,8 @@
   --shadow-md:    0 4px 20px rgba(0,0,0,0.5);
   --radius:       8px;
   --radius-sm:    6px;
+  --green:        #34d399;
+  --bg-subtle:    #14171f;
 }
 
 html, body {
