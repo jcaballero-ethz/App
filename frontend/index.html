@@ -37,19 +37,48 @@
   <div class="app-body">
     <!-- Sidebar navigation -->
     <nav class="app-sidebar" role="navigation" aria-label="Main navigation">
-      <div class="sidebar-section-label">Platform</div>
-      <div class="sidebar-item active" data-section="overview" tabindex="0" aria-current="page">Command Overview</div>
-      <div class="sidebar-section-label">Analysis</div>
-      <div class="sidebar-item" data-section="stress" tabindex="0">Stress Analysis</div>
-      <div class="sidebar-item" data-section="market" tabindex="0">Market Intelligence</div>
-      <div class="sidebar-item" data-section="gen" tabindex="0">Generation &amp; Mix</div>
-      <div class="sidebar-item" data-section="map" tabindex="0">Network &amp; Flows</div>
-      <div class="sidebar-item" data-section="historical" tabindex="0">Historical Trends</div>
-      <div class="sidebar-item" data-section="alerts" tabindex="0">Alerts &amp; Watchlist</div>
-      <div class="sidebar-section-label">Compare &amp; Report</div>
-      <div class="sidebar-item" data-section="compare" tabindex="0">Country Compare</div>
-      <div class="sidebar-item" data-section="cap" tabindex="0">Capacity &amp; Infra</div>
-      <div class="sidebar-item" data-section="report" tabindex="0">Intelligence Report</div>
+      <div class="sidebar-item active" data-section="overview" tabindex="0" aria-current="page">
+        <svg class="sidebar-icon" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect x="1" y="1" width="6" height="6" rx="1" stroke="currentColor" stroke-width="1.5"/><rect x="9" y="1" width="6" height="6" rx="1" stroke="currentColor" stroke-width="1.5"/><rect x="1" y="9" width="6" height="6" rx="1" stroke="currentColor" stroke-width="1.5"/><rect x="9" y="9" width="6" height="6" rx="1" stroke="currentColor" stroke-width="1.5"/></svg>
+        <span>Overview</span>
+      </div>
+      <div class="sidebar-divider"></div>
+      <div class="sidebar-item" data-section="stress" tabindex="0">
+        <svg class="sidebar-icon" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><polyline points="1,12 4,7 7,10 10,4 13,8 15,5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span>Stress</span>
+      </div>
+      <div class="sidebar-item" data-section="market" tabindex="0">
+        <svg class="sidebar-icon" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect x="1" y="10" width="3" height="5" rx="0.5" stroke="currentColor" stroke-width="1.5"/><rect x="6" y="6" width="3" height="9" rx="0.5" stroke="currentColor" stroke-width="1.5"/><rect x="11" y="2" width="3" height="13" rx="0.5" stroke="currentColor" stroke-width="1.5"/></svg>
+        <span>Market</span>
+      </div>
+      <div class="sidebar-item" data-section="gen" tabindex="0">
+        <svg class="sidebar-icon" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><circle cx="8" cy="8" r="3" stroke="currentColor" stroke-width="1.5"/><path d="M8 1v2M8 13v2M1 8h2M13 8h2M3.05 3.05l1.41 1.41M11.54 11.54l1.41 1.41M11.54 4.46l-1.41 1.41M4.95 11.54l-1.41 1.41" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        <span>Generation</span>
+      </div>
+      <div class="sidebar-item" data-section="map" tabindex="0">
+        <svg class="sidebar-icon" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><circle cx="8" cy="8" r="6.5" stroke="currentColor" stroke-width="1.5"/><path d="M1.5 8h13M8 1.5c-2 2-3 4-3 6.5s1 4.5 3 6.5M8 1.5c2 2 3 4 3 6.5s-1 4.5-3 6.5" stroke="currentColor" stroke-width="1.5"/></svg>
+        <span>Network</span>
+      </div>
+      <div class="sidebar-item" data-section="historical" tabindex="0">
+        <svg class="sidebar-icon" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><circle cx="8" cy="8" r="6.5" stroke="currentColor" stroke-width="1.5"/><polyline points="8,4 8,8 11,10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span>Historical</span>
+      </div>
+      <div class="sidebar-item" data-section="alerts" tabindex="0">
+        <svg class="sidebar-icon" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M8 1.5a5 5 0 0 1 5 5v2.5l1 2H2l1-2V6.5a5 5 0 0 1 5-5z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M6.5 13.5a1.5 1.5 0 0 0 3 0" stroke="currentColor" stroke-width="1.5"/></svg>
+        <span>Alerts</span>
+      </div>
+      <div class="sidebar-divider"></div>
+      <div class="sidebar-item" data-section="compare" tabindex="0">
+        <svg class="sidebar-icon" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M5 3H2v10h3M11 3h3v10h-3M5 8h6M8 5l3 3-3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span>Compare</span>
+      </div>
+      <div class="sidebar-item" data-section="cap" tabindex="0">
+        <svg class="sidebar-icon" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect x="1.5" y="4.5" width="13" height="9" rx="1" stroke="currentColor" stroke-width="1.5"/><path d="M5 4.5V3a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v1.5" stroke="currentColor" stroke-width="1.5"/><line x1="5" y1="9" x2="11" y2="9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        <span>Capacity</span>
+      </div>
+      <div class="sidebar-item" data-section="report" tabindex="0">
+        <svg class="sidebar-icon" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M4 1.5h5.5L13 5v9.5H4V1.5z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M9 1.5V5h3.5" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><line x1="6" y1="8" x2="10.5" y2="8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><line x1="6" y1="10.5" x2="10.5" y2="10.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        <span>Report</span>
+      </div>
     </nav>
 
   <!-- Main content -->
